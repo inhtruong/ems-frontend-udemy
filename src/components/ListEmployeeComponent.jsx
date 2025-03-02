@@ -22,7 +22,7 @@ const ListEmployeeComponent = () => {
     <div className='container'>
       <h2 className='text-center'>List of Employee</h2>
       <button className='btn btn-primary mb-2' onClick={addNewEmployee}>Add Employee</button>
-      <table class="table table-bordered table-striped">
+      <table className="table table-bordered table-striped">
         <thead>
           <tr>
             <th scope="col">Id</th>
