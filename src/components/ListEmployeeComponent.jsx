@@ -7,12 +7,16 @@ const ListEmployeeComponent = () => {
   const navigator = useNavigate()
 
   useEffect(() => {
+    gettAllEmployee()
+  }, [])
+
+  const gettAllEmployee = () => {
     listEmployees().then((response) => {
       setEmployees(response.data)
     }).catch(error => {
       console.log(error);
     })
-  }, [])
+  }
 
   const addNewEmployee = () => {
     navigator('/add-employee')
@@ -20,6 +24,18 @@ const ListEmployeeComponent = () => {
 
   const updateEmployee = (id) => {
     navigator(`/edit-employee/${id}`)
+  }
+
+  const deleteEmployee = (id) => {
+    console.log(id)
+
+    deleteEmployee(id).then((response) => {
+      // TODO:
+      alert('Delete Employee Success!')
+      gettAllEmployee()
+    }).catch(e => {
+      console.error(e);
+    })
   }
   return (
     <div className='container'>
@@ -45,6 +61,10 @@ const ListEmployeeComponent = () => {
                 <td>{empl.email}</td>
                 <td>
                   <button className='btn btn-info' onClick={() => updateEmployee(empl.id)}>Update</button>
+                  <button className='btn btn-danger' onClick={() => deleteEmployee(empl.id)}
+                    style={{ marginLeft: '10px' }}>
+                    Delete
+                  </button>
                 </td>
               </tr>
             )
