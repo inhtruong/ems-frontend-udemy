@@ -1,8 +1,45 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 const ListDepartmentComponent = () => {
+  const dummyData = [
+    {
+      "id": 1,
+      "departmentName": "R&D",
+      "departmentDescription": "Research and Development Department"
+    },
+    {
+      "id": 2,
+      "departmentName": "Finance",
+      "departmentDescription": "Finance Derpartment"
+    }
+  ]
+
+  const [departments, setDepartments] = useState(dummyData);
+
   return (
-    <div>ListDepartmentComponent</div>
+    <div className='container'>
+      <h2 className='text-center'>List of Department</h2>
+      <table className="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Department Id</th>
+            <th scope="col">Department Name</th>
+            <th scope="col">Department Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            departments.map(department =>
+              <tr key={department.id}>
+                <td scope="row">{department.id}</td>
+                <td>{department.departmentName}</td>
+                <td>{department.departmentDescription}</td>
+              </tr>
+            )
+          }
+        </tbody>
+      </table>
+    </div>
   )
 }
 
