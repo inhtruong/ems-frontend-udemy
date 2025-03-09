@@ -1,15 +1,22 @@
 import React, { useState } from 'react'
+import { createDepartment } from '../../services/DepartmentService';
+import { useNavigate } from 'react-router-dom';
 
 const DepartmentComponent = () => {
   const [departmentName, setDepartmentName] = useState("");
   const [departmentDescription, setDepartmentDescription] = useState("");
+  const navigator = useNavigate();
 
   const saveDepartment = (e) => {
     e.preventDefault();
-
     const department = { departmentName, departmentDescription };
 
-    console.log(department);
+    createDepartment(department).then((response) => {
+      console.log(response.data);
+      navigator("/departments");
+    }).catch(e => {
+      console.error(e);
+    })
   }
 
   return (
@@ -24,7 +31,7 @@ const DepartmentComponent = () => {
                 <input
                   type='text'
                   placeholder='Enter Department Name'
-                  name='firstName'
+                  name='departmentName'
                   value={departmentName}
                   className='form-control'
                   onChange={(e) => setDepartmentName(e.target.value)}
@@ -36,7 +43,7 @@ const DepartmentComponent = () => {
                 <input
                   type='text'
                   placeholder='Enter Department Description'
-                  name='firstName'
+                  name='departmentDescription'
                   value={departmentDescription}
                   className='form-control'
                   onChange={(e) => setDepartmentDescription(e.target.value)}
