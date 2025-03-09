@@ -1,18 +1,31 @@
 import React, { useEffect, useState } from 'react'
 import { createEmployee, getEmployee, updateEmployee } from '../../services/EmployeeService'
 import { useNavigate, useParams } from 'react-router-dom'
+import { getAllDepartments } from '../../services/DepartmentService'
 
 const EmployeeComponent = () => {
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
+  const [departmentId, setDepartmentId] = useState('');
+  const [departments, setDepartments] = useState([]);
   const navigator = useNavigate()
   const [errors, setErrors] = useState({
     firstName: '',
     lastName: '',
-    email: ''
+    email: '',
+    department: ''
   })
   const { id } = useParams();
+
+  useEffect(() => {
+    getAllDepartments().then((response) => {
+      console.log("Department", response.data)
+      setDepartments(response.data);
+    }).catch(e => {
+      console.error(e);
+    })
+  }, [])
 
   useEffect(() => {
     if (id) {
@@ -20,6 +33,7 @@ const EmployeeComponent = () => {
         setFirstName(response.data.firstName)
         setLastName(response.data.lastName)
         setEmail(response.data.email)
+        setDepartmentId(response.data.departmentId)
       }).catch((e) => {
         console.error(e)
       })
@@ -30,7 +44,7 @@ const EmployeeComponent = () => {
     e.preventDefault();
 
     if (validateForm()) {
-      const employee = { firstName, lastName, email }
+      const employee = { firstName, lastName, email, departmentId }
       console.log(employee)
 
       if (id) {
@@ -75,6 +89,13 @@ const EmployeeComponent = () => {
       errorsCopy.email = '';
     } else {
       errorsCopy.email = 'Email is required';
+      valid = false;
+    }
+
+    if (departmentId.trim()) {
+      errorsCopy.department = '';
+    } else {
+      errorsCopy.department = 'Department is required';
       valid = false;
     }
 
@@ -128,7 +149,24 @@ const EmployeeComponent = () => {
                   className={`form-control ${errors.email ? 'is-invalid' : ''}`}
                   onChange={(e) => setEmail(e.target.value)}
                 />
-                {errors.firstName && <div className='invalid-feedback'>{errors.email}</div>}
+                {errors.email && <div className='invalid-feedback'>{errors.email}</div>}
+              </div>
+
+              <div className='form-group mb-2'>
+                <label className='form-label'>Department:</label>
+                <select
+                  className={`form-control ${errors.department ? 'is-invalid' : ''}`}
+                  value={departmentId}
+                  onChange={(e) => setDepartmentId(e.target.value)}
+                >
+                  <option value="Select Department">Select Department</option>
+                  {
+                    departments.map((department) =>
+                      <option key={department.id} value={department.id}>{department.departmentName} </option>
+                    )
+                  }
+                </select>
+                {errors.department && <div className='invalid-feedback'>{errors.department}</div>}
               </div>
 
               <button className='btn btn-success' onClick={saveorUpdateEmployee}>Submit</button>
