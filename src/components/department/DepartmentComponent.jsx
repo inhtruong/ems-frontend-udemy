@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { createDepartment } from '../../services/DepartmentService';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const DepartmentComponent = () => {
   const [departmentName, setDepartmentName] = useState("");
   const [departmentDescription, setDepartmentDescription] = useState("");
   const navigator = useNavigate();
+  const { id } = useParams();
 
   const saveDepartment = (e) => {
     e.preventDefault();
@@ -23,7 +24,9 @@ const DepartmentComponent = () => {
     <div className='container mt-5'>
       <div className='row'>
         <div className='card col-md-6 offset-md-3'>
-          <h2 className='text-center'>Add Department</h2>
+          {
+            id ? <h2 className='text-center'>Update Department</h2> : <h2 className='text-center'>Add Department</h2>
+          }
           <div className='card-body'>
             <form>
               <div className='form-group mb-2'>
