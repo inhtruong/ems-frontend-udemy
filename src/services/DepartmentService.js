@@ -8,4 +8,6 @@ export const createDepartment = (department) => axios.post(DEPARTMENT_REST_API_B
 
 export const getDepartment = (departmentId) => axios.get(`${DEPARTMENT_REST_API_BASE_URL}/${departmentId}`);
 
-export const updateDepartment = (departmentId, department) => axios.put(`${DEPARTMENT_REST_API_BASE_URL}/${departmentId}`, department)
+export const updateDepartment = (departmentId, department) => axios.put(`${DEPARTMENT_REST_API_BASE_URL}/${departmentId}`, department);
+
+export const deleteDepartmentById = (departmentId) => axios.delete(`${DEPARTMENT_REST_API_BASE_URL}/${departmentId}`);
