@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { createDepartment, getDepartment } from '../../services/DepartmentService';
+import { createDepartment, getDepartment, updateDepartment } from '../../services/DepartmentService';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const DepartmentComponent = () => {
@@ -17,16 +17,27 @@ const DepartmentComponent = () => {
     })
   }, [id])
 
-  const saveDepartment = (e) => {
+  const saveOrUpdateDepartment = (e) => {
     e.preventDefault();
     const department = { departmentName, departmentDescription };
 
-    createDepartment(department).then((response) => {
-      console.log(response.data);
+    id ? handleUpdateDerpartment(id, department) : handleCreateDepartment(department);
+  }
+
+  const handleCreateDepartment = (department) => {
+    createDepartment(department).then(() => {
       navigator("/departments");
     }).catch(e => {
       console.error(e);
-    })
+    });
+  }
+
+  const handleUpdateDerpartment = (departmentId, department) => {
+    updateDepartment(departmentId, department).then(() => {
+      navigator("/departments");
+    }).catch(e => {
+      console.error(e);
+    });
   }
 
   return (
@@ -62,7 +73,7 @@ const DepartmentComponent = () => {
                 />
               </div>
 
-              <button className='btn btn-success' onClick={(e) => saveDepartment(e)}>Submit</button>
+              <button className='btn btn-success' onClick={(e) => saveOrUpdateDepartment(e)}>Submit</button>
             </form>
           </div>
         </div>
