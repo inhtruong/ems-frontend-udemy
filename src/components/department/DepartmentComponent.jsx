@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { createDepartment } from '../../services/DepartmentService';
+import React, { useEffect, useState } from 'react'
+import { createDepartment, getDepartment } from '../../services/DepartmentService';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const DepartmentComponent = () => {
@@ -7,6 +7,15 @@ const DepartmentComponent = () => {
   const [departmentDescription, setDepartmentDescription] = useState("");
   const navigator = useNavigate();
   const { id } = useParams();
+
+  useEffect(() => {
+    getDepartment(id).then((response) => {
+      setDepartmentName(response.data.departmentName);
+      setDepartmentDescription(response.data.departmentDescription);
+    }).catch(e => {
+      console.error(e);
+    })
+  }, [id])
 
   const saveDepartment = (e) => {
     e.preventDefault();
