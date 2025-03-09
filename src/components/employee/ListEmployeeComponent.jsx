@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { listEmployees } from '../services/EmployeeService'
+import { listEmployees } from '../../services/EmployeeService'
 import { useNavigate } from 'react-router-dom'
 
 const ListEmployeeComponent = () => {
@@ -31,6 +31,7 @@ const ListEmployeeComponent = () => {
 
     deleteEmployee(id).then((response) => {
       // TODO:
+      console.log(response.data)
       alert('Delete Employee Success!')
       gettAllEmployee()
     }).catch(e => {
